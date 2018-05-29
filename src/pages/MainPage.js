@@ -1,16 +1,20 @@
 import React from 'react'
-import logo from '../logo.svg'
-import '../App.css'
+import '../styles/MainPage.css'
 
 const MainPage = () => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">Welcome to React</h1>
-    </header>
-    <p className="App-intro">
-      To get started, edit <code>src/App.js</code> and save to reload.
-  </p>
+  <div>
+    <header><h2>New post</h2></header>
+    <p>Describe the details below as much as possible</p>
+    <form className="form-post">
+      <input type="text" name="title" placeholder="Title" />
+      <input type="text" name="author" placeholder="Author" />
+      <select>
+        <option key="placeholder" value="placeholder">Category</option>
+      </select>
+      <textarea placeholder="Body" name="body" />
+      <button>Post</button>
+    </form>
+    <time>{new Date().toString()}</time>
   </div>
 )
 
