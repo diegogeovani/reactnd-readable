@@ -1,10 +1,10 @@
 export const post = {
   id: '',
+  category: '',
   timestamp: '',
   title: '',
-  body: '',
   author: '',
-  category: '',
+  body: '',
   voteScore: 0,
   deleted: false
 }
