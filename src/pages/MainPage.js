@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import serializeForm from 'form-serialize'
 import { post } from '../model'
+import { createPost } from '../state/actions'
 import '../styles/MainPage.css'
 
 class MainPage extends Component {
@@ -14,8 +17,11 @@ class MainPage extends Component {
 
   onInput = (event) => this.saveState(event.target)
 
-  postSubmit = (event) => {
+  onSubmit = (event) => {
     event.preventDefault()
+    const post = serializeForm(event.target, { hash: true })
+    post.timestamp = Date.now()
+    this.props.onSubmit(post)
   }
 
   render() {
@@ -25,7 +31,7 @@ class MainPage extends Component {
       <div>
         <header><h2>New post</h2></header>
         <p>Describe the details below as much as possible</p>
-        <form onSubmit={this.postSubmit} className="form-post">
+        <form onSubmit={this.onSubmit} className="form-post">
           <input onChange={this.onInput} type="text" name="title" placeholder="Title" value={state.title} />
           <input onChange={this.onInput} type="text" name="author" placeholder="Author" value={state.author} />
           <select>
@@ -40,4 +46,10 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage
+function mapDispatchToProps(dispatch) {
+  return {
+    onSubmit: (post) => dispatch(createPost(post))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(MainPage)
