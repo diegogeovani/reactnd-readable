@@ -5,7 +5,12 @@ const headers = {
   'Authorization': 'Diego Geovani Andrade dos Santos'
 }
 
-export const create = (post) =>
+export const getCategories = () =>
+  fetch(`${api}/categories`, { headers })
+    .then(res => res.json())
+    .then(data => data.categories)
+
+export const createPost = (post) =>
   fetch(`${api}/posts`, {
     method: 'POST',
     headers: {

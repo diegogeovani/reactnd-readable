@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import serializeForm from 'form-serialize'
 import { post, newPost } from '../model'
-
 import { createPost } from '../state/actions'
 import '../styles/MainPage.css'
 
 class MainPage extends Component {
+
+  static propTypes = {
+    categories: PropTypes.array.isRequired
+  }
 
   state = post
 
@@ -26,6 +30,7 @@ class MainPage extends Component {
   }
 
   render() {
+    const { categories } = this.props
     const state = this.state
 
     return (
@@ -36,7 +41,8 @@ class MainPage extends Component {
           <input onChange={this.onInput} type="text" name="title" placeholder="Title" value={state.title} />
           <input onChange={this.onInput} type="text" name="author" placeholder="Author" value={state.author} />
           <select>
-            <option key="placeholder" value="placeholder">Category</option>
+            <option key="placeholder" value="placeholder">Select a category</option>
+            {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
           <textarea onChange={this.onInput} placeholder="Body" name="body" value={state.body} />
           <button>Post</button>
@@ -47,10 +53,16 @@ class MainPage extends Component {
   }
 }
 
+function mapStateToProps({ categories }) {
+  return {
+    categories: Object.keys(categories)
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     onSubmit: (post) => createPost(post)(dispatch)
   }
 }
 
-export default connect(null, mapDispatchToProps)(MainPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage)

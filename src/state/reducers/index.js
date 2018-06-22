@@ -1,11 +1,25 @@
 import { combineReducers } from 'redux'
-import { POST_CREATE, COMMENT_CREATE } from '../actions'
+import * as Action from '../actions'
+
+function categories(state = {}, action) {
+  const { categories } = action
+
+  switch (action.type) {
+    case Action.CATEGORY_FETCH:
+      return {
+        ...state,
+        ...categories
+      }
+    default:
+      return state
+  }
+}
 
 function posts(state = {}, action) {
   const { post } = action
 
   switch (action.type) {
-    case POST_CREATE:
+    case Action.POST_CREATE:
       return {
         ...state,
         [post.id]: {
@@ -21,7 +35,7 @@ function comments(state = {}, action) {
   const { parentId, timestamp, author, body } = action
 
   switch (action.type) {
-    case COMMENT_CREATE:
+    case Action.COMMENT_CREATE:
       return {
         ...state,
         [timestamp]: {
@@ -36,4 +50,10 @@ function comments(state = {}, action) {
   }
 }
 
-export default combineReducers({ posts, comments })
+export default combineReducers(
+  {
+    categories,
+    posts,
+    comments
+  }
+)
