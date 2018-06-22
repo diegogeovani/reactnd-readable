@@ -1,28 +1,15 @@
 import { combineReducers } from 'redux'
 import { POST_CREATE, COMMENT_CREATE } from '../actions'
-import { post } from '../../model'
 
-const getInitialState = (post) => ({
-  ...post,
-  id: '123',
-  timestamp: Date.now(),
-})
-
-const initialState = getInitialState(post);
-
-function posts(state = initialState, action) {
-  const { category, timestamp, title, author, body } = action
+function posts(state = {}, action) {
+  const { post } = action
 
   switch (action.type) {
     case POST_CREATE:
       return {
         ...state,
-        [timestamp]: {
-          category,
-          timestamp,
-          title,
-          author,
-          body
+        [post.id]: {
+          ...post
         }
       }
     default:

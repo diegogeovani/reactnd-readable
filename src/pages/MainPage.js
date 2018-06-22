@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
-import { post } from '../model'
+import { post, newPost } from '../model'
+
 import { createPost } from '../state/actions'
 import '../styles/MainPage.css'
 
@@ -19,8 +20,8 @@ class MainPage extends Component {
 
   onSubmit = (event) => {
     event.preventDefault()
-    const post = serializeForm(event.target, { hash: true })
-    post.timestamp = Date.now()
+    const post = newPost(serializeForm(event.target, { hash: true }))
+    console.log(post)
     this.props.onSubmit(post)
   }
 
@@ -48,7 +49,7 @@ class MainPage extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onSubmit: (post) => dispatch(createPost(post))
+    onSubmit: (post) => createPost(post)(dispatch)
   }
 }
 
