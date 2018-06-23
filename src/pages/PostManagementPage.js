@@ -9,7 +9,8 @@ import '../styles/MainPage.css'
 class PostManagementPage extends Component {
 
   static propTypes = {
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
 
   state = post

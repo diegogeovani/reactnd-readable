@@ -31,6 +31,7 @@ class App extends Component {
   }
 }
 
+
 function mapDispatchToProps(dispatch) {
   return {
     onInit: () => fetchAll()(dispatch)
