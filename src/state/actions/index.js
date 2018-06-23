@@ -1,21 +1,36 @@
 import * as Api from '../../apis/readable'
 
 export const CATEGORY_FETCH = 'CATEGORY_FETCH'
+export const POST_FETCH = 'POST_FETCH'
 export const POST_CREATE = 'POST_CREATE'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 
-export const fetchCategories = () => dispatch => (
+export const fetchAll = () => dispatch => (
   Api.getCategories()
-    .then(categories => dispatch(fetchCategoriesAction(categories)))
+    .then(categories => dispatch(fetchCategories(categories)))
+    .then(
+      () => Api.getPosts()
+        .then(posts => dispatch(fetchPosts(posts)))
+        .catch(error => console.error(error))
+    )
     .catch(error => console.error(error))
 )
 
-function fetchCategoriesAction(categories) {
-  const action = {}
-  categories.forEach(c => action[c.name] = { name: c.name })
+function fetchCategories(categories) {
+  const payload = {}
+  categories.forEach(c => payload[c.name] = { name: c.name })
   return {
     type: CATEGORY_FETCH,
-    categories: action
+    categories: payload
+  }
+}
+
+function fetchPosts(posts) {
+  const payload = {}
+  posts.forEach(p => payload[p.id] = { ...p })
+  return {
+    type: POST_FETCH,
+    posts: payload
   }
 }
 

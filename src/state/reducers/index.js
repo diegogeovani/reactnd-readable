@@ -16,10 +16,15 @@ function categories(state = {}, action) {
 }
 
 function posts(state = {}, action) {
-  const { post } = action
-
   switch (action.type) {
+    case Action.POST_FETCH:
+      const { posts } = action
+      return {
+        ...state,
+        ...posts
+      }
     case Action.POST_CREATE:
+      const { post } = action
       return {
         ...state,
         [post.id]: {

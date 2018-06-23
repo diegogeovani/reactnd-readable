@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import MainPage from '../pages/MainPage'
 import PostManagementPage from '../pages/PostManagementPage'
-import { fetchCategories } from '../state/actions'
+import { fetchAll } from '../state/actions'
 import '../styles/App.css'
 
 class App extends Component {
@@ -33,7 +33,7 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onInit: () => fetchCategories()(dispatch)
+    onInit: () => fetchAll()(dispatch)
   }
 }
 

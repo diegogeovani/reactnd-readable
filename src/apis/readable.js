@@ -10,6 +10,11 @@ export const getCategories = () =>
     .then(res => res.json())
     .then(data => data.categories)
 
+export const getPosts = () =>
+  fetch(`${api}/posts`, { headers })
+    .then(res => res.json())
+    .then(data => data)
+
 export const createPost = (post) =>
   fetch(`${api}/posts`, {
     method: 'POST',
