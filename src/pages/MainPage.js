@@ -40,7 +40,7 @@ class MainPage extends Component {
         <form onSubmit={this.onSubmit} className="form-post">
           <input onChange={this.onInput} type="text" name="title" placeholder="Title" value={state.title} />
           <input onChange={this.onInput} type="text" name="author" placeholder="Author" value={state.author} />
-          <select>
+          <select name="category">
             <option key="placeholder" value="placeholder">Select a category</option>
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>

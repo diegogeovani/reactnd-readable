@@ -1,12 +1,12 @@
 import { uuid } from './utils/id'
 
 export const post = {
-  id: null,
-  category: null,
-  timestamp: null,
-  title: null,
-  author: null,
-  body: null,
+  id: '',
+  category: '',
+  timestamp: '',
+  title: '',
+  author: '',
+  body: '',
   voteScore: 0,
   commentCount: 0,
   deleted: false

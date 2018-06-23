@@ -21,7 +21,7 @@ function fetchCategoriesAction(categories) {
 
 export const createPost = (post) => dispatch => (
   Api.createPost(post)
-    .then(dispatch(createPostAction(post)))
+    .then(() => dispatch(createPostAction(post)))
     .catch(error => console.error(error))
 )
 

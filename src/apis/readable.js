@@ -17,5 +17,5 @@ export const createPost = (post) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: post
+    body: JSON.stringify(post)
   }).then(res => res.json())
