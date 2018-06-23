@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import MainPage from './pages/MainPage'
-import { fetchCategories } from './state/actions'
-import './App.css'
+import MainPage from '../pages/MainPage'
+import PostManagementPage from '../pages/PostManagementPage'
+import { fetchCategories } from '../state/actions'
+import '../styles/App.css'
 
 class App extends Component {
 
@@ -22,6 +23,9 @@ class App extends Component {
         <Route
           exact path="/"
           render={() => (<MainPage />)} />
+        <Route
+          path="/posts"
+          render={() => (<PostManagementPage />)} />
       </div>
     )
   }
