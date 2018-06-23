@@ -2,7 +2,7 @@ const api = "http://localhost:3001"
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': 'Diego Geovani Andrade dos Santos'
+  'Authorization': 'Diego Santos'
 }
 
 export const getCategories = () =>
