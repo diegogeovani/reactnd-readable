@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import PostListItem from '../components/PostListItem'
 
 class MainPage extends Component {
 
@@ -14,21 +15,8 @@ class MainPage extends Component {
         <header><h1>Readable</h1></header>
         <main>
           {this.props.posts.map(p =>
-            <article key={p.id}>
-              <p>
-                <cite><b>{p.title}</b></cite> - by {p.author} --> {p.voteScore} votes
-              </p>
-              <p>
-                {p.body.length > 80 ?
-                  `${p.body.substring(0, 64)}...` : p.body
-                }
-              </p>
-              <p>{p.commentCount} comments</p>
-              <button type="button">Upvote</button>
-              <button type="button">Downvote</button>
-              <button type="button">Edit</button>
-              <hr />
-            </article>
+            <PostListItem
+              post={p} />
           )}
         </main>
       </div>
