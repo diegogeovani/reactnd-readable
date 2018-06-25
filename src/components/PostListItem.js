@@ -20,7 +20,7 @@ const PostListItem = ({ post }) => (
 )
 
 PostListItem.propTypes = {
-  todos: PropTypes.object.isRequired
-};
+  post: PropTypes.object.isRequired
+}
 
 export default PostListItem

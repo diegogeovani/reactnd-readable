@@ -24,7 +24,7 @@ class App extends Component {
           exact path="/"
           render={() => (<MainPage />)} />
         <Route
-          path="/posts"
+          exact path="/posts"
           render={() => (<PostManagementPage />)} />
       </div>
     )
