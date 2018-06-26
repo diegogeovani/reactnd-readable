@@ -6,7 +6,7 @@ import * as Model from '../model'
 import { createPost } from '../state/actions'
 import '../styles/MainPage.css'
 
-class PostManagementPage extends Component {
+class PostPage extends Component {
 
   static propTypes = {
     categories: PropTypes.array.isRequired,
@@ -67,4 +67,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostManagementPage)
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage)

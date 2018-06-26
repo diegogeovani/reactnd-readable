@@ -3,7 +3,7 @@ import { Route, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import MainPage from '../pages/MainPage'
-import PostManagementPage from '../pages/PostManagementPage'
+import PostPage from '../pages/PostPage'
 import { fetchAll } from '../state/actions'
 import '../styles/App.css'
 
@@ -26,12 +26,12 @@ class App extends Component {
 
         <Route
           exact path="/posts"
-          render={() => (<PostManagementPage />)} />
+          render={() => (<PostPage />)} />
 
         <Route
           path="/posts/:id/edit"
           render={(props) => (
-            <PostManagementPage
+            <PostPage
               id={props.match.params.id} />
           )} />
       </div>
