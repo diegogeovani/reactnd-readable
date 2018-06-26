@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import MainPage from '../pages/MainPage'
@@ -23,9 +23,17 @@ class App extends Component {
         <Route
           exact path="/"
           render={() => (<MainPage />)} />
+
         <Route
           exact path="/posts"
           render={() => (<PostManagementPage />)} />
+
+        <Route
+          path="/posts/:id/edit"
+          render={(props) => (
+            <PostManagementPage
+              id={props.match.params.id} />
+          )} />
       </div>
     )
   }
@@ -38,4 +46,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(App)
+export default withRouter(connect(null, mapDispatchToProps)(App))
