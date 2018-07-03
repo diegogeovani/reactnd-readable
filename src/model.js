@@ -12,11 +12,11 @@ export const post = {
   deleted: false
 }
 
-export const newPost = (payload) => {
+export const newPost = (payload, id) => {
   return {
     ...post,
     ...payload,
-    id: uuid(),
+    id: id !== null ? id : uuid(),
     timestamp: Date.now(),
   }
 }

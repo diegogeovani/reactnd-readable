@@ -3,6 +3,7 @@ import * as Api from '../../apis/readable'
 export const CATEGORY_FETCH = 'CATEGORY_FETCH'
 export const POST_FETCH = 'POST_FETCH'
 export const POST_CREATE = 'POST_CREATE'
+export const POST_UPDATE = 'POST_UPDATE'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 
 export const fetchAll = () => dispatch => (
@@ -43,6 +44,27 @@ export const createPost = (post) => dispatch => (
 function createPostAction(post) {
   return {
     type: POST_CREATE,
+    post
+  }
+}
+
+const getPostUpdatePayload = ({ id, title, body }) => {
+  return {
+    id,
+    title,
+    body
+  }
+}
+
+export const updatePost = (post) => dispatch => (
+  Api.updatePost(getPostUpdatePayload(post))
+    .then(() => dispatch(updatePostAction(getPostUpdatePayload(post))))
+    .catch(error => console.error(error))
+)
+
+function updatePostAction(post) {
+  return {
+    type: POST_UPDATE,
     post
   }
 }

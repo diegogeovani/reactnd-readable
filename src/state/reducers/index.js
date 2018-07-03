@@ -10,6 +10,7 @@ function categories(state = {}, action) {
         ...state,
         ...categories
       }
+
     default:
       return state
   }
@@ -23,14 +24,26 @@ function posts(state = {}, action) {
         ...state,
         ...posts
       }
+
     case Action.POST_CREATE:
-      const { post } = action
+      const { post: p1 } = action
       return {
         ...state,
-        [post.id]: {
-          ...post
+        [p1.id]: {
+          ...p1
         }
       }
+
+    case Action.POST_UPDATE:
+      const { post: p2 } = action
+      return {
+        ...state,
+        [p2.id]: {
+          title: p2.title,
+          body: p2.body
+        }
+      }
+
     default:
       return state
   }
