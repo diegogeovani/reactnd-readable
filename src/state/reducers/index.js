@@ -39,6 +39,7 @@ function posts(state = {}, action) {
       return {
         ...state,
         [p2.id]: {
+          ...state[p2.id],
           title: p2.title,
           body: p2.body
         }

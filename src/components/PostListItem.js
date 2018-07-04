@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const PostListItem = ({ post }) => (
-  <article>
+  <article key={post.id}>
     <p>
       <cite><b>{post.title}</b></cite> - by {post.author} --> {post.voteScore} votes
     </p>
