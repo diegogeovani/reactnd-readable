@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import PostListItem from '../components/PostListItem'
@@ -19,6 +20,7 @@ class MainPage extends Component {
               key={p.id}
               post={p} />
           )}
+          <Link to="/posts">+</Link>
         </main>
       </div>
     )
