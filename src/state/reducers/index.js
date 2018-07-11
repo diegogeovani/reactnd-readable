@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+  import { combineReducers } from 'redux'
 import * as Action from '../actions'
 
 function categories(state = {}, action) {

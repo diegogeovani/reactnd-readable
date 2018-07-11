@@ -11,12 +11,11 @@ export const post = {
   commentCount: 0,
   deleted: false
 }
-
-export const newPost = (payload, id) => {
+export const newPost = (payload) => {
   return {
     ...post,
     ...payload,
-    id: id !== null ? id : uuid(),
+    id: uuid(),
     timestamp: Date.now(),
   }
 }
