@@ -63,7 +63,7 @@ class PostForm extends Component {
       <form onSubmit={this.onSubmit} className="form-post">
         <input type="text" name="title" placeholder="Title" value={post.title} onChange={this.onInput} />
         <input type="text" name="author" placeholder="Author" value={post.author} onChange={this.onInput} />
-        <select name="category" value={this.isEdition(this.props) ? post.category : 'placeholder'} onChange={this.onInput}>
+        <select name="category" value={post.category} onChange={this.onInput}>
           <option key="placeholder" value="placeholder">Select a category</option>
           {categories.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
