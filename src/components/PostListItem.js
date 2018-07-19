@@ -16,6 +16,7 @@ const PostListItem = ({ post }) => (
     <button type="button">Upvote</button>
     <button type="button">Downvote</button>
     <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+    <button type="button">delete</button>
     <hr />
   </article>
 )
