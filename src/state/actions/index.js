@@ -4,6 +4,7 @@ export const CATEGORY_FETCH = 'CATEGORY_FETCH'
 export const POST_FETCH = 'POST_FETCH'
 export const POST_CREATE = 'POST_CREATE'
 export const POST_UPDATE = 'POST_UPDATE'
+export const POST_UPDATE_VOTE_SCORE = 'POST_UPDATE_VOTE_SCORE'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 
 export const fetchAll = () => dispatch => (
@@ -68,6 +69,22 @@ function updatePostAction(post) {
     post
   }
 }
+
+export const updatePostVoteScore = (post, upVote) => dispatch => (
+  Api.updatePostVoteScore(post, upVote)
+    .then(() => dispatch(updatePostVoteScoreAction(
+      {
+        id: post.id,
+        voteScore: post.voteScore
+      }
+    )))
+    .catch(error => console.error(error))
+)
+
+const updatePostVoteScoreAction = (post) => ({
+  type: POST_UPDATE_VOTE_SCORE,
+  post
+})
 
 export function createComment({ parentId, author, body, voteScore, deleted, parentDeleted }) {
   return {

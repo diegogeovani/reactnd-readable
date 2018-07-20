@@ -35,6 +35,20 @@ export const updatePost = (post) =>
     body: JSON.stringify(getUpdatePayload(post))
   }).then(res => res.json())
 
+export const updatePostVoteScore = (post, upVote) =>
+  fetch(`${api}/posts/${post.id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(getUpdateVoteScorePayload(upVote))
+  }).then(res => res.json())
+
 const getUpdatePayload = ({ title, body }) => (
   { title, body }
+)
+
+const getUpdateVoteScorePayload = (upVote) => (
+  { option: upVote ? 'upVote' : 'downVote' }
 )

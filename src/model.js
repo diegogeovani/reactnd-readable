@@ -11,6 +11,7 @@ export const post = {
   commentCount: 0,
   deleted: false
 }
+
 export const newPost = (payload) => {
   return {
     ...post,
@@ -18,4 +19,9 @@ export const newPost = (payload) => {
     id: uuid(),
     timestamp: Date.now(),
   }
+}
+
+export const vote = {
+  upValue: 1,
+  downValue: -1
 }
