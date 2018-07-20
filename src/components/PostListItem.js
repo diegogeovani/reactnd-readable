@@ -5,16 +5,19 @@ import { Link } from 'react-router-dom'
 const PostListItem = ({ post }) => (
   <article key={post.id}>
     <p>
-      <cite><b>{post.title}</b></cite> - by {post.author} --> {post.voteScore} votes
+      <cite><b>{post.title}</b></cite> - by {post.author}
     </p>
+    <section style={{ border: '.5em solid transparent', float: 'right' }}>
+      {post.voteScore} votes
+      <button type="button">Upvote</button>
+      <button type="button">Downvote</button>
+    </section>
     <p>
       {post.body.length > 80 ?
         `${post.body.substring(0, 64)}...` : post.body
       }
     </p>
     <p>{post.commentCount} comments</p>
-    <button type="button">Upvote</button>
-    <button type="button">Downvote</button>
     <Link to={`/posts/${post.id}/edit`}>Edit</Link>
     <button type="button">delete</button>
     <hr />
