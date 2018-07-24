@@ -9,7 +9,7 @@ const PostListItem = ({ post, onVote }) => {
 
   const onClick = (e) => {
     e.preventDefault()
-    const voteValue = parseInt(e.target.value)
+    const voteValue = parseInt(e.target.value, 10)
     onVote(
       {
         ...post,
