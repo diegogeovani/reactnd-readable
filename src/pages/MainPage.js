@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
+import CategoryDropdown from '../components/CategoryDropdown'
 import PostListItem from '../components/PostListItem'
 
 class MainPage extends Component {
@@ -13,7 +15,11 @@ class MainPage extends Component {
   render() {
     return (
       <div>
-        <header><h1>Readable</h1></header>
+        <header>
+          <h1>Readable</h1>
+          <CategoryDropdown
+            placeholder='Todas as categorias' />
+        </header>
         <main>
           {this.props.posts.map(p =>
             <PostListItem
