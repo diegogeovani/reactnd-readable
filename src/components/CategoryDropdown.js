@@ -6,7 +6,7 @@ class CategoryDropdown extends Component {
 
   static propTypes = {
     categories: PropTypes.array.isRequired,
-    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
     placeholder: PropTypes.string,
     category: PropTypes.string
   }
@@ -20,7 +20,7 @@ class CategoryDropdown extends Component {
 
   onSelection = (event) => {
     this.setState({ category: event.target.value })
-    this.props.onChange && this.props.onChange()
+    this.props.onSelect && this.props.onSelect(event)
   }
 
   render() {

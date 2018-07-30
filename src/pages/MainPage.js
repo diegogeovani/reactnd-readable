@@ -18,7 +18,7 @@ class MainPage extends Component {
         <header>
           <h1>Readable</h1>
           <CategoryDropdown
-            placeholder='Todas as categorias' />
+            placeholder='All categories' />
         </header>
         <main>
           {this.props.posts.map(p =>

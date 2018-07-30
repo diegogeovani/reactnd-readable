@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
 import * as Model from '../model'
 import { createPost, updatePost } from '../state/actions'
+import CategoryDropdown from './CategoryDropdown'
+
 import '../styles/MainPage.css'
 
 class PostForm extends Component {
 
   static propTypes = {
-    categories: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onSubmitEdition: PropTypes.func.isRequired,
     id: PropTypes.string,
@@ -56,17 +58,15 @@ class PostForm extends Component {
   }
 
   render() {
-    const { categories } = this.props
     const post = this.state.data
 
     return (
       <form onSubmit={this.onSubmit} className="form-post">
         <input type="text" name="title" placeholder="Title" value={post.title} onChange={this.onInput} />
         <input type="text" name="author" placeholder="Author" value={post.author} onChange={this.onInput} />
-        <select name="category" value={post.category} onChange={this.onInput}>
-          <option key="placeholder" value="placeholder">Select a category</option>
-          {categories.map(c => <option key={c} value={c}>{c}</option>)}
-        </select>
+        <CategoryDropdown
+          onSelect={this.onInput}
+          placeholder='Select a category' />
         <textarea placeholder="Body" name="body" value={post.body} onChange={this.onInput} />
         <button>Post</button>
       </form>
@@ -74,9 +74,8 @@ class PostForm extends Component {
   }
 }
 
-function mapStateToProps({ categories, posts }, ownProps) {
+function mapStateToProps({ posts }, ownProps) {
   return {
-    categories: Object.keys(categories),
     post: posts[ownProps.id]
   }
 }
