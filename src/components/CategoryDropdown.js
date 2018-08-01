@@ -1,42 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-class CategoryDropdown extends Component {
+const CategoryDropdown = ({
+  categories,
+  onSelect,
+  placeholder,
+  category
+}) => {
 
-  static propTypes = {
-    categories: PropTypes.array.isRequired,
-    onSelect: PropTypes.func,
-    placeholder: PropTypes.string,
-    category: PropTypes.string
-  }
+  const defaultValue = ''
+  return (
+    <select name="category" value={category} onChange={onSelect}>
+      {placeholder &&
+        <option key={defaultValue} value={defaultValue}>{placeholder}</option>
+      }
+      {categories.map(c => <option key={c} value={c}>{c}</option>)}
+    </select>
+  )
+}
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      category: props.category
-    }
-  }
-
-  onSelection = (event) => {
-    this.setState({ category: event.target.value })
-    this.props.onSelect && this.props.onSelect(event)
-  }
-
-  render() {
-    const { category } = this.state
-    const { categories, placeholder } = this.props
-    const defaultValue = ''
-
-    return (
-      <select name="category" value={category ? category : defaultValue} onChange={this.onSelection}>
-        {placeholder &&
-          <option key={defaultValue} value={defaultValue}>{placeholder}</option>
-        }
-        {categories.map(c => <option key={c} value={c}>{c}</option>)}
-      </select>
-    )
-  }
+CategoryDropdown.propTypes = {
+  categories: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  category: PropTypes.string
 }
 
 function mapStateToProps({ categories }) {

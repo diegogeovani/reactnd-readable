@@ -66,6 +66,7 @@ class PostForm extends Component {
         <input type="text" name="author" placeholder="Author" value={post.author} onChange={this.onInput} />
         <CategoryDropdown
           onSelect={this.onInput}
+          category={post.category}
           placeholder='Select a category' />
         <textarea placeholder="Body" name="body" value={post.body} onChange={this.onInput} />
         <button>Post</button>

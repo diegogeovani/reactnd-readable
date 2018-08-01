@@ -9,7 +9,12 @@ import PostListItem from '../components/PostListItem'
 class MainPage extends Component {
 
   static propTypes = {
-    posts: PropTypes.array.isRequired
+    posts: PropTypes.array.isRequired,
+    category: PropTypes.string
+  }
+
+  onCategoryFilter = (event) => {
+
   }
 
   render() {
@@ -18,6 +23,8 @@ class MainPage extends Component {
         <header>
           <h1>Readable</h1>
           <CategoryDropdown
+            onSelect={this.onCategoryFilter}
+            category={this.props.category}
             placeholder='All categories' />
         </header>
         <main>
@@ -33,9 +40,11 @@ class MainPage extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    posts: Object.values(state.posts)
+    posts: ownProps.category ?
+      Object.values(state.posts).filter(o => o.category === ownProps.category) :
+      Object.values(state.posts)
   }
 }
 

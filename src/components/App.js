@@ -25,8 +25,12 @@ class App extends Component {
           render={() => (<MainPage />)} />
 
         <Route
-          exact path="/posts"
-          render={() => (<PostPage />)} />
+          exact path="/:path"
+          render={(props) => (props.match.params.path !== 'posts' ?
+            <MainPage
+              category={props.match.params.path} /> :
+            <PostPage />
+          )} />
 
         <Route
           path="/posts/:id/edit"
