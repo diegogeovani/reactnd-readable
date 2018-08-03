@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Link, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import CategoryDropdown from '../components/CategoryDropdown'
 import PostListItem from '../components/PostListItem'
@@ -13,19 +13,19 @@ class MainPage extends Component {
     category: PropTypes.string
   }
 
-  onCategoryFilter = (event) => {
-
-  }
-
   render() {
     return (
       <div>
         <header>
           <h1>Readable</h1>
-          <CategoryDropdown
-            onSelect={this.onCategoryFilter}
-            category={this.props.category}
-            placeholder='All categories' />
+          <Route render={({ history }) => (
+            <CategoryDropdown
+              onSelect={(event) => {
+                history.push(`/${event.target.value}`)
+              }}
+              category={this.props.category}
+              placeholder='All categories' />
+          )} />
         </header>
         <main>
           {this.props.posts.map(p =>
