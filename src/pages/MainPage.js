@@ -69,7 +69,7 @@ function mapStateToProps(state, ownProps) {
     posts = posts.filter(o => o.category === ownProps.category)
   }
   if (ownProps.sorting) {
-    posts = sorting().sort(posts, ownProps.sorting.sort)
+    posts = sorting().sort(posts, ownProps.sorting.sort).reverse()
   }
   return { posts }
 }
