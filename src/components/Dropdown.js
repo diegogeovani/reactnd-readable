@@ -1,6 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+export const dropdownOption = (value, text) => ({
+  value,
+  text
+})
+
 const Dropdown = ({
   name,
   options,
@@ -15,7 +20,7 @@ const Dropdown = ({
       {placeholder &&
         <option key={defaultValue} value={defaultValue}>{placeholder}</option>
       }
-      {options.map(o => <option key={o} value={o}>{o}</option>)}
+      {options.map(o => <option key={o.value} value={o.value}>{o.text}</option>)}
     </select>
   )
 }

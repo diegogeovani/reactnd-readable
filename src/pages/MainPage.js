@@ -4,7 +4,7 @@ import { Link, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { sorting } from '../model'
-import Dropdown from '../components/Dropdown'
+import Dropdown, { dropdownOption } from '../components/Dropdown'
 import CategoryDropdown from '../components/CategoryDropdown'
 import PostListItem from '../components/PostListItem'
 
@@ -36,7 +36,10 @@ class MainPage extends Component {
           <Route render={({ history }) => (
             <Dropdown
               name='sort'
-              options={Object.keys(this.sorting.sortBy)}
+              options={[
+                dropdownOption(this.sorting.sortBy.timestamp, 'Most recent'),
+                dropdownOption(this.sorting.sortBy.voteScore, 'Most popular'),
+              ]}
               currentValue={this.props.sorting ? this.props.sorting.sort : null}
               placeholder='Sort by'
               onSelect={(event) => {

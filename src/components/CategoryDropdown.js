@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Dropdown from './Dropdown'
+import Dropdown, { dropdownOption } from './Dropdown'
 
 const CategoryDropdown = ({
   categories,
@@ -14,7 +14,7 @@ const CategoryDropdown = ({
   return (
     <Dropdown
       name='category'
-      options={categories}
+      options={categories.map((c) => dropdownOption(c, c))}
       onSelect={onSelect}
       currentValue={category}
       placeholder={placeholder} />
