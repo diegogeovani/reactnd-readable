@@ -25,3 +25,28 @@ export const vote = {
   upValue: 1,
   downValue: -1
 }
+
+export const sorting = () => {
+  const sortBy = {
+    timestamp: {
+      value: 'timestamp',
+      text: 'Date'
+    },
+    voteScore: {
+      value: 'voteScore',
+      text: 'Votes'
+    },
+  }
+
+  const isRegularNumber = (num) => typeof num === 'number' && isFinite(num)
+
+  const sort = (posts, prop = sortBy.timestamp.value) => {
+    return [...posts].sort((a, b) => {
+      const u = a[prop]
+      const v = b[prop]
+      return isRegularNumber(u) && isRegularNumber(v) ? u - v : 0
+    })
+  }
+
+  return { sortBy, sort }
+}

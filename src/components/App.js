@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import queryString from 'query-string'
+
 import MainPage from '../pages/MainPage'
 import PostPage from '../pages/PostPage'
+
 import { fetchAll } from '../state/actions'
+
 import '../styles/App.css'
 
 class App extends Component {
@@ -17,18 +21,25 @@ class App extends Component {
     this.props.onInit()
   }
 
+  parseSorting = (props) => (
+    props.location.search ? queryString.parse(props.location.search) : null
+  )
+
   render() {
     return (
       <div className="app">
         <Route
           exact path="/"
-          render={() => (<MainPage />)} />
+          render={(props) => (
+            <MainPage sorting={this.parseSorting(props)} />
+        )} />
 
         <Route
-          exact path="/:path"
+          path="/:path"
           render={(props) => (props.match.params.path !== 'posts' ?
             <MainPage
-              category={props.match.params.path} /> :
+              category={props.match.params.path}
+              sorting={this.parseSorting(props)} /> :
             <PostPage />
           )} />
 

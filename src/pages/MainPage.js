@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Link, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import { sorting } from '../model'
+import Dropdown from '../components/Dropdown'
 import CategoryDropdown from '../components/CategoryDropdown'
 import PostListItem from '../components/PostListItem'
 
@@ -10,22 +12,40 @@ class MainPage extends Component {
 
   static propTypes = {
     posts: PropTypes.array.isRequired,
-    category: PropTypes.string
+    category: PropTypes.string,
+    sorting: PropTypes.object,
   }
+
+  sorting = sorting()
 
   render() {
     return (
       <div>
         <header>
           <h1>Readable</h1>
+
           <Route render={({ history }) => (
             <CategoryDropdown
-              onSelect={(event) => {
-                history.push(`/${event.target.value}`)
-              }}
               category={this.props.category}
-              placeholder='All categories' />
+              placeholder='All categories'
+              onSelect={(event) => {
+                history.push(`/${event.target.value}${history.location.search}`)
+              }} />
           )} />
+
+          <Route render={({ history }) => (
+            <Dropdown
+              name='sort'
+              options={Object.keys(this.sorting.sortBy)}
+              currentValue={this.props.sorting ? this.props.sorting.sort : null}
+              placeholder='Sort by'
+              onSelect={(event) => {
+                event.target.value ?
+                  history.push(`${history.location.pathname}?sort=${event.target.value}`) :
+                  history.push(history.location.pathname)
+              }} />
+          )} />
+
         </header>
         <main>
           {this.props.posts.map(p =>
@@ -41,11 +61,14 @@ class MainPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return {
-    posts: ownProps.category ?
-      Object.values(state.posts).filter(o => o.category === ownProps.category) :
-      Object.values(state.posts)
+  let posts = Object.values(state.posts)
+  if (ownProps.category) {
+    posts = posts.filter(o => o.category === ownProps.category)
   }
+  if (ownProps.sorting) {
+    posts = sorting().sort(posts, ownProps.sorting.sort)
+  }
+  return { posts }
 }
 
 export default connect(mapStateToProps, null)(MainPage)
