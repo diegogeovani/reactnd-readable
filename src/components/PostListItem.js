@@ -35,6 +35,7 @@ const PostListItem = ({ post, onVote }) => {
         }
       </p>
       <p>{post.commentCount} comments</p>
+      <Link to={`/${post.category}/${post.id}`}>View</Link>
       <Link to={`/posts/${post.id}/edit`}>Edit</Link>
       <button type="button">delete</button>
       <hr />

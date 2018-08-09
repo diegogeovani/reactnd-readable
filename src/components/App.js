@@ -6,6 +6,7 @@ import queryString from 'query-string'
 
 import MainPage from '../pages/MainPage'
 import PostPage from '../pages/PostPage'
+import PostViewPage from '../pages/PostViewPage'
 
 import { fetchAll } from '../state/actions'
 
@@ -32,10 +33,10 @@ class App extends Component {
           exact path="/"
           render={(props) => (
             <MainPage sorting={this.parseSorting(props)} />
-        )} />
+          )} />
 
         <Route
-          path="/:path"
+          exact path="/:path"
           render={(props) => (props.match.params.path !== 'posts' ?
             <MainPage
               category={props.match.params.path}
@@ -48,6 +49,12 @@ class App extends Component {
           render={(props) => (
             <PostPage
               id={props.match.params.id} />
+          )} />
+
+        <Route
+          exact path='/:category/:post_id'
+          render={(props) => (
+            <PostViewPage id={props.match.params.post_id} />
           )} />
       </div>
     )
