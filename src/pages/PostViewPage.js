@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { post as postModel } from '../model'
 import VoteControl from '../components/VoteControl'
 
 const PostViewPage = ({ post }) => {
@@ -28,7 +29,7 @@ PostViewPage.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  post: state.posts[ownProps.id]
+  post: state.posts[ownProps.id] ? state.posts[ownProps.id] : postModel
 })
 
 export default connect(mapStateToProps, null)(PostViewPage)
