@@ -64,7 +64,7 @@ class MainPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  let posts = Object.values(state.posts)
+  let posts = Object.values(state.posts).filter(p => !p.deleted)
   if (ownProps.category) {
     posts = posts.filter(o => o.category === ownProps.category)
   }

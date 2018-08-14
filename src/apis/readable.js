@@ -45,6 +45,15 @@ export const updatePostVoteScore = (post, upVote) =>
     body: JSON.stringify(getUpdateVoteScorePayload(upVote))
   }).then(res => res.json())
 
+export const deletePost = (post) =>
+  fetch(`${api}/posts/${post.id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+
 const getUpdatePayload = ({ title, body }) => (
   { title, body }
 )

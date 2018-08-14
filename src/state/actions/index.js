@@ -5,6 +5,7 @@ export const POST_FETCH = 'POST_FETCH'
 export const POST_CREATE = 'POST_CREATE'
 export const POST_UPDATE = 'POST_UPDATE'
 export const POST_UPDATE_VOTE_SCORE = 'POST_UPDATE_VOTE_SCORE'
+export const POST_DELETE = 'POST_DELETE'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 
 export const fetchAll = () => dispatch => (
@@ -84,6 +85,20 @@ export const updatePostVoteScore = (post, upVote) => dispatch => (
 const updatePostVoteScoreAction = (post) => ({
   type: POST_UPDATE_VOTE_SCORE,
   post
+})
+
+export const deletePost = (post) => dispatch => (
+  Api.deletePost(post)
+    .then(() => dispatch(deletePostAction(post)))
+    .catch(error => console.error(error))
+)
+
+const deletePostAction = ({ id }) => ({
+  type: POST_DELETE,
+  post: {
+    id,
+    deleted: true
+  }
 })
 
 export function createComment({ parentId, author, body, voteScore, deleted, parentDeleted }) {

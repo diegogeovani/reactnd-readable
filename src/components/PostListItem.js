@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-import VoteControl from '../components/VoteControl'
+import VoteControl from './VoteControl'
+import PostControl from './PostControl'
 
 const PostListItem = ({ post }) => (
   <article key={post.id}>
@@ -17,8 +18,7 @@ const PostListItem = ({ post }) => (
     </p>
     <p>{post.commentCount} comments</p>
     <Link to={`/${post.category}/${post.id}`}>View</Link>
-    <Link to={`/posts/${post.id}/edit`}>Edit</Link>
-    <button type="button">delete</button>
+    <PostControl post={post} />
     <hr />
   </article>
 )

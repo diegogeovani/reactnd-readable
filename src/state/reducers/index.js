@@ -55,6 +55,16 @@ function posts(state = {}, action) {
         }
       }
 
+    case Action.POST_DELETE:
+      const { post: p4 } = action
+      return {
+        ...state,
+        [p4.id]: {
+          ...state[p4.id],
+          deleted: p4.deleted
+        }
+      }
+
     default:
       return state
   }
