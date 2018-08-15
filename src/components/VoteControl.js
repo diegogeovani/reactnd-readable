@@ -20,7 +20,7 @@ const VoteControl = ({ post, onVote }) => {
   }
 
   return (
-    <section style={{ border: '.5em solid transparent', float: 'right' }}>
+    <section style={{ border: '.5em solid transparent' }}>
       <p>Score: {post.voteScore}</p>
       <button type='button' value={vote.upValue} onClick={onVoteClick}>Upvote</button>
       <button type='button' value={vote.downValue} onClick={onVoteClick}>Downvote</button>

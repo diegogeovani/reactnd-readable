@@ -55,13 +55,23 @@ function posts(state = {}, action) {
         }
       }
 
-    case Action.POST_DELETE:
+    case Action.POST_UPDATE_COMMENT_COUNT:
       const { post: p4 } = action
       return {
         ...state,
         [p4.id]: {
           ...state[p4.id],
-          deleted: p4.deleted
+          commentCount: p4.commentCount
+        }
+      }
+
+    case Action.POST_DELETE:
+      const { post: p5 } = action
+      return {
+        ...state,
+        [p5.id]: {
+          ...state[p5.id],
+          deleted: p5.deleted
         }
       }
 
@@ -71,17 +81,14 @@ function posts(state = {}, action) {
 }
 
 function comments(state = {}, action) {
-  const { parentId, timestamp, author, body } = action
+  const { comment } = action
 
   switch (action.type) {
     case Action.COMMENT_CREATE:
       return {
         ...state,
-        [timestamp]: {
-          parentId,
-          timestamp,
-          author,
-          body
+        [comment.id]: {
+          ...comment
         }
       }
     default:
@@ -89,10 +96,8 @@ function comments(state = {}, action) {
   }
 }
 
-export default combineReducers(
-  {
-    categories,
-    posts,
-    comments
-  }
-)
+export default combineReducers({
+  categories,
+  posts,
+  comments
+})

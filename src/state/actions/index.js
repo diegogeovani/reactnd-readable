@@ -5,6 +5,7 @@ export const POST_FETCH = 'POST_FETCH'
 export const POST_CREATE = 'POST_CREATE'
 export const POST_UPDATE = 'POST_UPDATE'
 export const POST_UPDATE_VOTE_SCORE = 'POST_UPDATE_VOTE_SCORE'
+export const POST_UPDATE_COMMENT_COUNT = 'POST_UPDATE_COMMENT_COUNT'
 export const POST_DELETE = 'POST_DELETE'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 
@@ -101,14 +102,24 @@ const deletePostAction = ({ id }) => ({
   }
 })
 
-export function createComment({ parentId, author, body, voteScore, deleted, parentDeleted }) {
-  return {
-    type: COMMENT_CREATE,
-    parentId,
-    author,
-    body,
-    voteScore,
-    deleted,
-    parentDeleted
+export const createComment = (post, comment) => dispatch => (
+  Api.createComment(comment)
+    .then(() => {
+      dispatch(createCommentAction(comment))
+      dispatch(updatePostCommentCountAction(post))
+    })
+    .catch(error => console.error(error))
+)
+
+const createCommentAction = (comment) => ({
+  type: COMMENT_CREATE,
+  comment
+})
+
+const updatePostCommentCountAction = ({ id, commentCount }) => ({
+  type: POST_UPDATE_COMMENT_COUNT,
+  post: {
+    id,
+    commentCount,
   }
-}
+})

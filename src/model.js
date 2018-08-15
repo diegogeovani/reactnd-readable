@@ -21,6 +21,30 @@ export const newPost = (payload) => {
   }
 }
 
+export const comment = (props = {}) => {
+
+  const instance = () => ({
+    ...props,
+    id: uuid(),
+    timestamp: Date.now(),
+    voteScore: 0,
+    deleted: false,
+    parentDeleted: false,
+  })
+
+  const post = (parentId, author, body) => ({
+    ...instance(),
+    parentId,
+    author,
+    body,
+  })
+
+  return {
+    ...instance(),
+    post,
+  }
+}
+
 export const vote = {
   upValue: 1,
   downValue: -1

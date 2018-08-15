@@ -5,6 +5,23 @@ const headers = {
   'Authorization': 'Diego Santos'
 }
 
+const getPostUpdatePayload = ({ title, body }) => ({
+  title,
+  body
+})
+
+const getUpdateVoteScorePayload = (upVote) => (
+  { option: upVote ? 'upVote' : 'downVote' }
+)
+
+const getCommentCreatePayload = ({ id, timestamp, body, author, parentId }) => ({
+  id,
+  timestamp,
+  body,
+  author,
+  parentId
+})
+
 export const getCategories = () =>
   fetch(`${api}/categories`, { headers })
     .then(res => res.json())
@@ -32,7 +49,7 @@ export const updatePost = (post) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(getUpdatePayload(post))
+    body: JSON.stringify(getPostUpdatePayload(post))
   }).then(res => res.json())
 
 export const updatePostVoteScore = (post, upVote) =>
@@ -54,10 +71,12 @@ export const deletePost = (post) =>
     }
   }).then(res => res.json())
 
-const getUpdatePayload = ({ title, body }) => (
-  { title, body }
-)
-
-const getUpdateVoteScorePayload = (upVote) => (
-  { option: upVote ? 'upVote' : 'downVote' }
-)
+export const createComment = (comment) =>
+  fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(getCommentCreatePayload(comment))
+  }).then(res => res.json())
