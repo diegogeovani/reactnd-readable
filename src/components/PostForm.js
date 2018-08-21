@@ -20,18 +20,18 @@ class PostForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: Model.post
+      data: Model.post().props()
     }
   }
 
   componentDidMount() {
-    if (this.isEdition(this.props) && this.state.data.id === Model.post.id) {
+    if (this.isEdition(this.props) && !this.state.data.id) {
       this.setState({ data: this.props.post })
     }
   }
 
   componentDidUpdate() {
-    if (this.isEdition(this.props) && this.state.data.id === Model.post.id) {
+    if (this.isEdition(this.props) && !this.state.data.id) {
       this.setState({ data: this.props.post })
     }
   }
@@ -49,7 +49,9 @@ class PostForm extends Component {
     if (this.isEdition(this.props)) {
       this.props.onSubmitEdition(post)
     } else {
-      this.props.onSubmit(Model.newPost(post))
+      const postModel = Model.post().create(post);
+      console.log(postModel)
+      this.props.onSubmit(postModel)
     }
   }
 

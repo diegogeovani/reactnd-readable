@@ -52,7 +52,7 @@ PostViewPage.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  post: state.posts[ownProps.id] ? state.posts[ownProps.id] : postModel
+  post: state.posts[ownProps.id] ? state.posts[ownProps.id] : postModel().props()
 })
 
 const mapDispatchToProps = (dispatch) => ({

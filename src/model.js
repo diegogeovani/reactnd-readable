@@ -1,23 +1,42 @@
 import { uuid } from './utils/id'
 
-export const post = {
-  id: '',
-  category: '',
-  timestamp: '',
-  title: '',
-  author: '',
-  body: '',
-  voteScore: 0,
-  commentCount: 0,
-  deleted: false
-}
+export const post = ({
+  id,
+  timestamp,
+  category = '',
+  author = '',
+  title = '',
+  body = '',
+  voteScore = 0,
+  commentCount = 0,
+  deleted = false } = {}) => {
 
-export const newPost = (payload) => {
-  return {
-    ...post,
-    ...payload,
+  const props = () => ({
+    id,
+    timestamp,
+    category,
+    author,
+    title,
+    body,
+    voteScore,
+    commentCount,
+    deleted,
+  })
+
+  const create = ({ category, author, title, body } = {}) => ({
+    ...props(),
     id: uuid(),
     timestamp: Date.now(),
+    category,
+    author,
+    title,
+    body,
+  })
+
+  return {
+    ...props(),
+    create,
+    props,
   }
 }
 
