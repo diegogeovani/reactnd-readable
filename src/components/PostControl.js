@@ -10,7 +10,10 @@ const PostControl = ({ post, onDelete }) => (
     <Link to={`/posts/${post.id}/edit`}>Edit</Link>
     <Route render={() => (
       <button type="button" onClick={() => {
-        onDelete(post)
+        onDelete({
+          ...post,
+          deleted: true
+        })
       }}>
         delete
       </button>

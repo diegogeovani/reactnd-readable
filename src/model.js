@@ -33,10 +33,18 @@ export const post = ({
     body,
   })
 
+  function updateCommentCount(commentCount) {
+    return {
+      ...this,
+      commentCount,
+    }
+  }
+
   return {
     ...props(),
-    create,
     props,
+    create,
+    updateCommentCount,
   }
 }
 
@@ -51,7 +59,7 @@ export const comment = (props = {}) => {
     parentDeleted: false,
   })
 
-  const post = (parentId, author, body) => ({
+  const create = (parentId, author, body) => ({
     ...instance(),
     parentId,
     author,
@@ -60,7 +68,7 @@ export const comment = (props = {}) => {
 
   return {
     ...instance(),
-    post,
+    create,
   }
 }
 

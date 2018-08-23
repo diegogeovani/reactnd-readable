@@ -9,16 +9,6 @@ export const POST_UPDATE_COMMENT_COUNT = 'POST_UPDATE_COMMENT_COUNT'
 export const POST_DELETE = 'POST_DELETE'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 
-export const fetchAll = () => dispatch => (
-  Api.getCategories()
-    .then(categories => dispatch(fetchCategories(categories)))
-    .then(
-      () => Api.getPosts()
-        .then(posts => dispatch(fetchPosts(posts)))
-        .catch(error => console.error(error))
-    )
-    .catch(error => console.error(error))
-)
 
 function fetchCategories(categories) {
   const payload = {}
@@ -38,78 +28,35 @@ function fetchPosts(posts) {
   }
 }
 
-export const createPost = (post) => dispatch => (
-  Api.createPost(post)
-    .then(() => dispatch(createPostAction(post)))
-    .catch(error => console.error(error))
-)
-
-function createPostAction(post) {
-  return {
-    type: POST_CREATE,
-    post
-  }
-}
-
-const getPostUpdatePayload = ({ id, title, body }) => {
-  return {
-    id,
-    title,
-    body
-  }
-}
-
-export const updatePost = (post) => dispatch => (
-  Api.updatePost(getPostUpdatePayload(post))
-    .then(() => dispatch(updatePostAction(getPostUpdatePayload(post))))
-    .catch(error => console.error(error))
-)
-
-function updatePostAction(post) {
-  return {
-    type: POST_UPDATE,
-    post
-  }
-}
-
-export const updatePostVoteScore = (post, upVote) => dispatch => (
-  Api.updatePostVoteScore(post, upVote)
-    .then(() => dispatch(updatePostVoteScoreAction(
-      {
-        id: post.id,
-        voteScore: post.voteScore
-      }
-    )))
-    .catch(error => console.error(error))
-)
-
-const updatePostVoteScoreAction = (post) => ({
-  type: POST_UPDATE_VOTE_SCORE,
+const createPostAction = (post) => ({
+  type: POST_CREATE,
   post
 })
 
-export const deletePost = (post) => dispatch => (
-  Api.deletePost(post)
-    .then(() => dispatch(deletePostAction(post)))
-    .catch(error => console.error(error))
-)
-
-const deletePostAction = ({ id }) => ({
-  type: POST_DELETE,
+const updatePostAction = ({ id, title, body }) => ({
+  type: POST_UPDATE,
   post: {
     id,
-    deleted: true
+    title,
+    body,
   }
 })
 
-export const createComment = (post, comment) => dispatch => (
-  Api.createComment(comment)
-    .then(() => {
-      dispatch(createCommentAction(comment))
-      dispatch(updatePostCommentCountAction(post))
-    })
-    .catch(error => console.error(error))
-)
+const updatePostVoteScoreAction = ({ id, voteScore }) => ({
+  type: POST_UPDATE_VOTE_SCORE,
+  post: {
+    id,
+    voteScore,
+  }
+})
+
+const deletePostAction = ({ id, deleted }) => ({
+  type: POST_DELETE,
+  post: {
+    id,
+    deleted,
+  }
+})
 
 const createCommentAction = (comment) => ({
   type: COMMENT_CREATE,
@@ -123,3 +70,47 @@ const updatePostCommentCountAction = ({ id, commentCount }) => ({
     commentCount,
   }
 })
+
+export const fetchAll = () => dispatch => (
+  Api.getCategories()
+    .then(categories => dispatch(fetchCategories(categories)))
+    .then(
+      () => Api.getPosts()
+        .then(posts => dispatch(fetchPosts(posts)))
+        .catch(error => console.error(error))
+    )
+    .catch(error => console.error(error))
+)
+
+export const createPost = (post) => dispatch => (
+  Api.createPost(post)
+    .then(() => dispatch(createPostAction(post)))
+    .catch(error => console.error(error))
+)
+
+export const updatePost = (post) => dispatch => (
+  Api.updatePost(post)
+    .then(() => dispatch(updatePostAction(post)))
+    .catch(error => console.error(error))
+)
+
+export const updatePostVoteScore = (post, upVote) => dispatch => (
+  Api.updatePostVoteScore(post, upVote)
+    .then(() => dispatch(updatePostVoteScoreAction(post)))
+    .catch(error => console.error(error))
+)
+
+export const deletePost = (post) => dispatch => (
+  Api.deletePost(post)
+    .then(() => dispatch(deletePostAction(post)))
+    .catch(error => console.error(error))
+)
+
+export const createComment = (post, comment) => dispatch => (
+  Api.createComment(comment)
+    .then(() => {
+      dispatch(createCommentAction(comment))
+      dispatch(updatePostCommentCountAction(post))
+    })
+    .catch(error => console.error(error))
+)

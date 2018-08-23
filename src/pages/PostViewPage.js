@@ -15,11 +15,8 @@ const PostViewPage = ({ post, onComment }) => {
     e.preventDefault()
     const form = serializeForm(e.target, { hash: true })
     onComment(
-      {
-        ...post,
-        commentCount: post.commentCount + 1
-      },
-      comment().post(post.id, form.author, form.body)
+      postModel(post).updateCommentCount(post.commentCount + 1),
+      comment().create(post.id, form.author, form.body)
     )
   }
 
