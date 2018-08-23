@@ -11,19 +11,16 @@ const VoteControl = ({ post, onVote }) => {
     e.preventDefault()
     const voteValue = parseInt(e.target.value, 10)
     onVote(
-      {
-        ...post,
-        voteScore: post.voteScore + voteValue
-      },
-      voteValue === vote.upValue
+      vote().updateScore(post, e.target.value),
+      voteValue === vote().upValue
     )
   }
 
   return (
     <section style={{ border: '.5em solid transparent' }}>
       <p>Score: {post.voteScore}</p>
-      <button type='button' value={vote.upValue} onClick={onVoteClick}>Upvote</button>
-      <button type='button' value={vote.downValue} onClick={onVoteClick}>Downvote</button>
+      <button type='button' value={vote().upValue} onClick={onVoteClick}>Upvote</button>
+      <button type='button' value={vote().downValue} onClick={onVoteClick}>Downvote</button>
     </section>
   )
 }
