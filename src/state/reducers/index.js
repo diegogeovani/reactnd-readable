@@ -81,10 +81,16 @@ function posts(state = {}, action) {
 }
 
 function comments(state = {}, action) {
-  const { comment } = action
-
   switch (action.type) {
+    case Action.COMMENT_FETCH:
+      const { comments } = action
+      return {
+        ...state,
+        ...comments
+      }
+
     case Action.COMMENT_CREATE:
+      const { comment } = action
       return {
         ...state,
         [comment.id]: {

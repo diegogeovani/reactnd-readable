@@ -7,8 +7,8 @@ export const POST_UPDATE = 'POST_UPDATE'
 export const POST_UPDATE_VOTE_SCORE = 'POST_UPDATE_VOTE_SCORE'
 export const POST_UPDATE_COMMENT_COUNT = 'POST_UPDATE_COMMENT_COUNT'
 export const POST_DELETE = 'POST_DELETE'
+export const COMMENT_FETCH = 'COMMENT_FETCH'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
-
 
 function fetchCategories(categories) {
   const payload = {}
@@ -58,6 +58,15 @@ const deletePostAction = ({ id, deleted }) => ({
   }
 })
 
+const fetchCommentsAction = (comments) => {
+  const payload = {}
+  comments.forEach(c => payload[c.id] = c)
+  return {
+    type: COMMENT_FETCH,
+    comments: payload
+  }
+}
+
 const createCommentAction = (comment) => ({
   type: COMMENT_CREATE,
   comment
@@ -103,6 +112,12 @@ export const updatePostVoteScore = (post, upVote) => dispatch => (
 export const deletePost = (post) => dispatch => (
   Api.deletePost(post)
     .then(() => dispatch(deletePostAction(post)))
+    .catch(error => console.error(error))
+)
+
+export const fetchComments = (post) => dispatch => (
+  Api.getComments(post.id)
+    .then((comments) => dispatch(fetchCommentsAction(comments)))
     .catch(error => console.error(error))
 )
 

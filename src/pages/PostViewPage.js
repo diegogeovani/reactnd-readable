@@ -1,18 +1,36 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
 
 import { post as postModel } from '../model'
 import { comment } from '../model'
+import { createComment, fetchComments } from '../state/actions'
 import VoteControl from '../components/VoteControl'
 import PostControl from '../components/PostControl'
-import { createComment } from '../state/actions'
+import Comment2 from '../components/Comment'
 
-const PostViewPage = ({ post, onComment }) => {
+class PostViewPage extends Component {
 
-  const onFormSubmit = (e) => {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    post: PropTypes.object.isRequired,
+    onCommentsInit: PropTypes.func.isRequired,
+    onComment: PropTypes.func.isRequired,
+    comments: PropTypes.array,
+  }
+
+  componentDidMount() {
+    this.verifyComments()
+  }
+
+  componentDidUpdate() {
+    this.verifyComments()
+  }
+
+  onFormSubmit = (e) => {
     e.preventDefault()
+    const { post, onComment } = this.props
     const form = serializeForm(e.target, { hash: true })
     onComment(
       postModel(post).updateCommentCount(post.commentCount + 1),
@@ -20,39 +38,62 @@ const PostViewPage = ({ post, onComment }) => {
     )
   }
 
-  return (
-    <div>
-      <header>
-        <h2>{post.title}</h2>
-        <p>by<cite>{post.author}</cite></p>
-      </header>
-      <main>
-        <p>{post.body}</p>
-        <p>Created at: {post.timestamp}</p>
-        <p>{post.commentCount} comments</p>
-        <VoteControl post={post} />
-        <PostControl post={post} />
-        <form className="form-post" onSubmit={onFormSubmit}>
-          <input type='author' name='author' placeholder='Author' />
-          <textarea name='body' placeholder='Write your comment here' />
-          <button>Comment</button>
-        </form>
-      </main>
-    </div>
-  )
+  render() {
+    const { post, comments } = this.props
+    return (
+      <div>
+        <header>
+          <h2>{post.title}</h2>
+          <p>by<cite>{post.author}</cite></p>
+        </header>
+        <main>
+          <article>
+            <p>{post.body}</p>
+            <p>Created at: {post.timestamp}</p>
+            <p>{post.commentCount} comments</p>
+            <VoteControl post={post} />
+            <PostControl post={post} />
+            <form onSubmit={this.onFormSubmit}>
+              <input type='author' name='author' placeholder='Author' />
+              <textarea name='body' placeholder='Write your comment here' />
+              <button>Comment</button>
+            </form>
+          </article>
+          <section>
+            {comments ?
+              <ul>
+                {comments.map(c =>
+                  <li key={c.id}>
+                    <Comment2 comment={c} />
+                  </li>
+                )}
+              </ul>
+              :
+              <p>No comments in this post yet</p>
+            }
+          </section>
+        </main>
+      </div>
+    )
+  }
+
+  verifyComments = () => {
+    const { post, onCommentsInit, comments } = this.props
+    !comments && post && post.commentCount > 0 && onCommentsInit(post)
+  }
 }
 
-PostViewPage.propTypes = {
-  id: PropTypes.string.isRequired,
-  post: PropTypes.object.isRequired,
-  onComment: PropTypes.func.isRequired,
+const mapStateToProps = (state, ownProps) => {
+  const post = state.posts[ownProps.id] ? state.posts[ownProps.id] : postModel().props()
+  const comments = Object.values(state.comments).filter(c => c.parentId === post.id)
+  return {
+    post,
+    comments: post.commentCount > 0 && comments.length > 0 ? comments : undefined
+  }
 }
-
-const mapStateToProps = (state, ownProps) => ({
-  post: state.posts[ownProps.id] ? state.posts[ownProps.id] : postModel().props()
-})
 
 const mapDispatchToProps = (dispatch) => ({
+  onCommentsInit: (post) => fetchComments(post)(dispatch),
   onComment: (post, comment) => createComment(post, comment)(dispatch)
 })
 
