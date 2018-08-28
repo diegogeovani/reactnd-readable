@@ -90,13 +90,24 @@ function comments(state = {}, action) {
       }
 
     case Action.COMMENT_CREATE:
-      const { comment } = action
+      const { comment: c1 } = action
       return {
         ...state,
-        [comment.id]: {
-          ...comment
+        [c1.id]: {
+          ...c1
         }
       }
+
+    case Action.COMMENT_UPDATE_VOTE_SCORE:
+      const { comment: c2 } = action
+      return {
+        ...state,
+        [c2.id]: {
+          ...state[c2.id],
+          voteScore: c2.voteScore
+        }
+      }
+
     default:
       return state
   }

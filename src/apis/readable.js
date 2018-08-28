@@ -2,7 +2,8 @@ const api = "http://localhost:3001"
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': 'Diego Santos'
+  'Authorization': 'Diego Santos',
+  'Content-Type': 'application/json',
 }
 
 const getPostUpdatePayload = ({ title, body }) => ({
@@ -37,7 +38,6 @@ export const createPost = (post) =>
     method: 'POST',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
     },
     body: JSON.stringify(post)
   }).then(res => res.json())
@@ -47,7 +47,6 @@ export const updatePost = (post) =>
     method: 'PUT',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
     },
     body: JSON.stringify(getPostUpdatePayload(post))
   }).then(res => res.json())
@@ -57,7 +56,6 @@ export const updatePostVoteScore = (post, upVote) =>
     method: 'POST',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
     },
     body: JSON.stringify(getUpdateVoteScorePayload(upVote))
   }).then(res => res.json())
@@ -67,7 +65,6 @@ export const deletePost = (post) =>
     method: 'DELETE',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
     }
   }).then(res => res.json())
 
@@ -81,7 +78,16 @@ export const createComment = (comment) =>
     method: 'POST',
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
     },
     body: JSON.stringify(getCommentCreatePayload(comment))
+  }).then(res => res.json())
+
+
+export const updateCommentVoteScore = (commentId, upVote) =>
+  fetch(`${api}/comments/${commentId}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+    },
+    body: JSON.stringify(getUpdateVoteScorePayload(upVote))
   }).then(res => res.json())

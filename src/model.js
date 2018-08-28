@@ -74,14 +74,14 @@ export const comment = (props = {}) => {
 
 export const vote = () => {
 
-  const updateScore = (post = {}, vote = 0) => {
+  const updateScore = (candidate = {}, vote = 0) => {
     const v = parseInt(vote, 10)
     return sorting().isRegularNumber(v) ?
       {
-        ...post,
-        voteScore: sorting().isRegularNumber(post.voteScore + v) ? post.voteScore + v : 0
+        ...candidate,
+        voteScore: sorting().isRegularNumber(candidate.voteScore + v) ? candidate.voteScore + v : 0
       } :
-      post
+      candidate
   }
 
   return {

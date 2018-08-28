@@ -8,7 +8,7 @@ import { comment } from '../model'
 import { createComment, fetchComments } from '../state/actions'
 import PostVoteControl from '../components/PostVoteControl'
 import PostControl from '../components/PostControl'
-import Comment2 from '../components/Comment'
+import Comment from '../components/Comment'
 
 class PostViewPage extends Component {
 
@@ -64,7 +64,7 @@ class PostViewPage extends Component {
               <ul>
                 {comments.map(c =>
                   <li key={c.id}>
-                    <Comment2 comment={c} />
+                    <Comment comment={c} />
                   </li>
                 )}
               </ul>
