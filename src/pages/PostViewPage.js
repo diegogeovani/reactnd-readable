@@ -6,7 +6,7 @@ import serializeForm from 'form-serialize'
 import { post as postModel } from '../model'
 import { comment } from '../model'
 import { createComment, fetchComments } from '../state/actions'
-import VoteControl from '../components/VoteControl'
+import PostVoteControl from '../components/PostVoteControl'
 import PostControl from '../components/PostControl'
 import Comment2 from '../components/Comment'
 
@@ -51,7 +51,7 @@ class PostViewPage extends Component {
             <p>{post.body}</p>
             <p>Created at: {post.timestamp}</p>
             <p>{post.commentCount} comments</p>
-            <VoteControl post={post} />
+            <PostVoteControl post={post} />
             <PostControl post={post} />
             <form onSubmit={this.onFormSubmit}>
               <input type='author' name='author' placeholder='Author' />
