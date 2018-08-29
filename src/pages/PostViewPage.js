@@ -44,7 +44,7 @@ class PostViewPage extends Component {
       <div>
         <header>
           <h2>{post.title}</h2>
-          <p>by<cite>{post.author}</cite></p>
+          <p>by <cite>{post.author}</cite></p>
         </header>
         <main>
           <article>

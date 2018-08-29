@@ -48,26 +48,39 @@ export const post = ({
   }
 }
 
-export const comment = (props = {}) => {
+export const comment = ({
+  id,
+  timestamp,
+  parentId = '',
+  author = '',
+  body = '',
+  voteScore = 0,
+  deleted = false,
+  parentDeleted = false,
+} = {}) => {
 
-  const instance = () => ({
-    ...props,
-    id: uuid(),
-    timestamp: Date.now(),
-    voteScore: 0,
-    deleted: false,
-    parentDeleted: false,
+  const props = () => ({
+    id,
+    timestamp,
+    parentId,
+    author,
+    body,
+    voteScore,
+    deleted,
+    parentDeleted,
   })
 
   const create = (parentId, author, body) => ({
-    ...instance(),
+    ...props(),
+    id: uuid(),
+    timestamp: Date.now(),
     parentId,
     author,
     body,
   })
 
   return {
-    ...instance(),
+    ...props(),
     create,
   }
 }

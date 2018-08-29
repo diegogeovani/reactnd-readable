@@ -9,7 +9,6 @@ const Comment = ({ comment }) => {
     <article>
       <p>{comment.body}</p>
       <p>Author: {comment.author}</p>
-      <p>{comment.voteScore} votes</p>
       <CommentVoteControl comment={comment} />
       <hr />
     </article>
