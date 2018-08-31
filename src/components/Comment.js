@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import CommentControl from './CommentControl'
 import CommentVoteControl from './CommentVoteControl'
 
 const Comment = ({ comment }) => {
@@ -9,6 +10,7 @@ const Comment = ({ comment }) => {
     <article>
       <p>{comment.body}</p>
       <p>Author: {comment.author}</p>
+      <CommentControl comment={comment} />
       <CommentVoteControl comment={comment} />
       <hr />
     </article>

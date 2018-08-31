@@ -33,7 +33,7 @@ class PostViewPage extends Component {
     const { post, onComment } = this.props
     const form = serializeForm(e.target, { hash: true })
     onComment(
-      postModel(post).updateCommentCount(post.commentCount + 1),
+      postModel(post).updateCommentCount(1),
       comment().create(post.id, form.author, form.body)
     )
   }
@@ -85,10 +85,15 @@ class PostViewPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const post = state.posts[ownProps.id] ? state.posts[ownProps.id] : postModel().props()
-  const comments = Object.values(state.comments).filter(c => c.parentId === post.id)
+  let comments
+  if (post.commentCount > 0) {
+    comments = Object.values(state.comments)
+      .filter(c => c.parentId === post.id)
+      .filter(d => !d.deleted && !d.parentDeleted)
+  }
   return {
     post,
-    comments: post.commentCount > 0 && comments.length > 0 ? comments : undefined
+    comments: comments && comments.length > 0 ? comments : undefined
   }
 }
 

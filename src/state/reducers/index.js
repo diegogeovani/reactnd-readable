@@ -108,6 +108,16 @@ function comments(state = {}, action) {
         }
       }
 
+    case Action.COMMENT_DELETE:
+      const { comment: c3 } = action
+      return {
+        ...state,
+        [c3.id]: {
+          ...state[c3.id],
+          deleted: c3.deleted
+        }
+      }
+
     default:
       return state
   }

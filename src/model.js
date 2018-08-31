@@ -33,10 +33,10 @@ export const post = ({
     body,
   })
 
-  function updateCommentCount(commentCount) {
+  function updateCommentCount(value) {
     return {
       ...this,
-      commentCount,
+      commentCount: this.commentCount + value
     }
   }
 
@@ -79,9 +79,17 @@ export const comment = ({
     body,
   })
 
+  function selfDelete() {
+    return {
+      ...this,
+      deleted: true
+    }
+  }
+
   return {
     ...props(),
     create,
+    selfDelete,
   }
 }
 

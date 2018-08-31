@@ -91,3 +91,11 @@ export const updateCommentVoteScore = (commentId, upVote) =>
     },
     body: JSON.stringify(getUpdateVoteScorePayload(upVote))
   }).then(res => res.json())
+
+export const deleteComment = (commentId) =>
+  fetch(`${api}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+    }
+  }).then(res => res.json())
