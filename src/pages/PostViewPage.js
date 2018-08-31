@@ -9,6 +9,7 @@ import { createComment, fetchComments } from '../state/actions'
 import PostVoteControl from '../components/PostVoteControl'
 import PostControl from '../components/PostControl'
 import Comment from '../components/Comment'
+import CommentForm from '../components/CommentForm'
 
 class PostViewPage extends Component {
 
@@ -53,11 +54,7 @@ class PostViewPage extends Component {
             <p>{post.commentCount} comments</p>
             <PostVoteControl post={post} />
             <PostControl post={post} />
-            <form onSubmit={this.onFormSubmit}>
-              <input type='author' name='author' placeholder='Author' />
-              <textarea name='body' placeholder='Write your comment here' />
-              <button>Comment</button>
-            </form>
+            <CommentForm onSubmit={this.onFormSubmit} />
           </article>
           <section>
             {comments ?
