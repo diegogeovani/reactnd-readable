@@ -108,13 +108,23 @@ function comments(state = {}, action) {
         }
       }
 
-    case Action.COMMENT_DELETE:
+    case Action.COMMENT_UPDATE:
       const { comment: c3 } = action
       return {
         ...state,
         [c3.id]: {
           ...state[c3.id],
-          deleted: c3.deleted
+          body: c3.body
+        }
+      }
+
+    case Action.COMMENT_DELETE:
+      const { comment: c4 } = action
+      return {
+        ...state,
+        [c4.id]: {
+          ...state[c4.id],
+          deleted: c4.deleted
         }
       }
 

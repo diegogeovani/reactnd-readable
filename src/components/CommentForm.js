@@ -1,44 +1,49 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-const getInitialState = () => ({
-  author: '',
-  body: '',
-})
+const CommentForm = ({
+  comment,
+  edition,
+  onAuthorInput,
+  onBodyInput,
+  onSubmit,
+  onEditCancel,
+}) => (
+    <form>
+      <input
+        type='text'
+        name='author'
+        placeholder='Author'
+        value={comment.author}
+        onChange={onAuthorInput}
+        disabled={edition ? 'disabled' : undefined} />
+      <textarea
+        name='body'
+        placeholder='Write your comment here'
+        value={comment.body}
+        onChange={onBodyInput} />
+      {edition &&
+        <button type='button' onClick={onEditCancel}>
+          Cancel
+        </button>
+      }
+      <button type='button' onClick={onSubmit}>
+        {edition ? 'Edit' : 'Comment'}
+      </button>
+    </form>
+  )
 
-class CommentForm extends Component {
+CommentForm.propTypes = {
+  comment: PropTypes.object.isRequired,
+  edition: PropTypes.bool,
+  onAuthorInput: PropTypes.func,
+  onBodyInput: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onEditCancel: PropTypes.func,
+}
 
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  }
-
-  state = getInitialState()
-
-  render() {
-    const { onSubmit } = this.props
-    const { author, body } = this.state
-
-    return (
-      <form onSubmit={(e) => {
-        onSubmit(e)
-        this.setState(getInitialState())
-      }}>
-        <input
-          type='text'
-          name='author'
-          placeholder='Author'
-          value={author}
-          onChange={(e) => this.setState({ author: e.target.value })} />
-        <textarea
-          name='body'
-          placeholder='Write your comment here'
-          value={body}
-          onChange={(e) => this.setState({ body: e.target.value })} />
-        <button>Comment</button>
-      </form>
-    )
-  }
-
+CommentForm.defaultProps = {
+  edition: false,
 }
 
 export default CommentForm

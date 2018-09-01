@@ -10,16 +10,18 @@ import { deleteComment } from '../state/actions'
 
 const CommentControl = ({
   comment,
+  onEdit,
   onDelete,
   post,
 }) => (
     <section>
-      <button type='button' onClick={() => {
+      <button type='button' onClick={() => onEdit && onEdit(comment)}>edit</button>
+      <button type='button' onClick={() =>
         onDelete(
           postModel(post).updateCommentCount(-1),
           commentModel(comment).selfDelete()
         )
-      }}>
+      }>
         delete
     </button>
     </section>
@@ -27,6 +29,7 @@ const CommentControl = ({
 
 CommentControl.propTypes = {
   comment: PropTypes.object.isRequired,
+  onEdit: PropTypes.func,
   onDelete: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
 }

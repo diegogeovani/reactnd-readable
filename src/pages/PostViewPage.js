@@ -1,15 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import serializeForm from 'form-serialize'
 
 import { post as postModel } from '../model'
 import { comment } from '../model'
-import { createComment, fetchComments } from '../state/actions'
+import {
+  fetchComments,
+  createComment,
+  updateComment
+} from '../state/actions'
 import PostVoteControl from '../components/PostVoteControl'
 import PostControl from '../components/PostControl'
 import Comment from '../components/Comment'
 import CommentForm from '../components/CommentForm'
+
+const getInitialState = () => ({
+  commentForm: {
+    id: undefined,
+    author: '',
+    body: '',
+    edition: false,
+  }
+})
 
 class PostViewPage extends Component {
 
@@ -18,8 +30,11 @@ class PostViewPage extends Component {
     post: PropTypes.object.isRequired,
     onCommentsInit: PropTypes.func.isRequired,
     onComment: PropTypes.func.isRequired,
+    onCommentEdit: PropTypes.func.isRequired,
     comments: PropTypes.array,
   }
+
+  state = getInitialState()
 
   componentDidMount() {
     this.verifyComments()
@@ -29,18 +44,30 @@ class PostViewPage extends Component {
     this.verifyComments()
   }
 
-  onFormSubmit = (e) => {
+  onCommentFormSubmit = (e) => {
     e.preventDefault()
     const { post, onComment } = this.props
-    const form = serializeForm(e.target, { hash: true })
+    const { commentForm } = this.state
     onComment(
       postModel(post).updateCommentCount(1),
-      comment().create(post.id, form.author, form.body)
+      comment().create(post.id, commentForm.author, commentForm.body)
     )
+  }
+
+  onCommentFormEdit = (e) => {
+    e.preventDefault()
+    const { onCommentEdit } = this.props
+    onCommentEdit(comment(this.state.commentForm))
+  }
+
+  verifyComments = () => {
+    const { post, onCommentsInit, comments } = this.props
+    !comments && post && post.commentCount > 0 && onCommentsInit(post)
   }
 
   render() {
     const { post, comments } = this.props
+
     return (
       <div>
         <header>
@@ -54,14 +81,52 @@ class PostViewPage extends Component {
             <p>{post.commentCount} comments</p>
             <PostVoteControl post={post} />
             <PostControl post={post} />
-            <CommentForm onSubmit={this.onFormSubmit} />
+            <br />
+            <hr />
+            <h3>Comments</h3>
+            <CommentForm
+              comment={this.state.commentForm}
+              edition={this.state.commentForm.edition}
+              onAuthorInput={(e) => this.setState({
+                commentForm: {
+                  ...this.state.commentForm,
+                  author: e.target.value
+                }
+              })}
+              onBodyInput={(e) => this.setState({
+                commentForm: {
+                  ...this.state.commentForm,
+                  body: e.target.value
+                }
+              })}
+              onSubmit={(e) => {
+                if (this.state.commentForm.edition) {
+                  this.onCommentFormEdit(e)
+                } else {
+                  this.onCommentFormSubmit(e)
+                }
+                this.setState(getInitialState())
+              }}
+              onEditCancel={(e) => {
+                e.preventDefault()
+                this.setState(getInitialState())
+              }} />
           </article>
           <section>
             {comments ?
               <ul>
                 {comments.map(c =>
                   <li key={c.id}>
-                    <Comment comment={c} />
+                    <Comment
+                      comment={c}
+                      onEdit={(c) => this.setState({
+                        commentForm: {
+                          id: c.id,
+                          author: c.author,
+                          body: c.body,
+                          edition: true
+                        }
+                      })} />
                   </li>
                 )}
               </ul>
@@ -74,10 +139,6 @@ class PostViewPage extends Component {
     )
   }
 
-  verifyComments = () => {
-    const { post, onCommentsInit, comments } = this.props
-    !comments && post && post.commentCount > 0 && onCommentsInit(post)
-  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -96,7 +157,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onCommentsInit: (post) => fetchComments(post)(dispatch),
-  onComment: (post, comment) => createComment(post, comment)(dispatch)
+  onComment: (post, comment) => createComment(post, comment)(dispatch),
+  onCommentEdit: (comment) => updateComment(comment)(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewPage)

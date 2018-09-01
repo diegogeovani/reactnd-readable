@@ -10,6 +10,7 @@ export const POST_DELETE = 'POST_DELETE'
 export const COMMENT_FETCH = 'COMMENT_FETCH'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 export const COMMENT_UPDATE_VOTE_SCORE = 'COMMENT_UPDATE_VOTE_SCORE'
+export const COMMENT_UPDATE = 'COMMENT_UPDATE'
 export const COMMENT_DELETE = 'COMMENT_DELETE'
 
 function fetchCategories(categories) {
@@ -90,6 +91,14 @@ const updateCommentVoteScoreAction = ({ id, voteScore }) => ({
   }
 })
 
+const updateCommentAction = ({ id, body }) => ({
+  type: COMMENT_UPDATE,
+  comment: {
+    id,
+    body,
+  }
+})
+
 const deleteCommentAction = ({ id, deleted }) => ({
   type: COMMENT_DELETE,
   comment: {
@@ -151,6 +160,12 @@ export const createComment = (post, comment) => dispatch => (
 export const updateCommentVoteScore = (comment, upVote) => dispatch => (
   Api.updateCommentVoteScore(comment.id, upVote)
     .then(() => dispatch(updateCommentVoteScoreAction(comment)))
+    .catch(error => console.error(error))
+)
+
+export const updateComment = (comment) => dispatch => (
+  Api.updateComment(comment.id, comment.body)
+    .then(() => dispatch(updateCommentAction(comment)))
     .catch(error => console.error(error))
 )
 

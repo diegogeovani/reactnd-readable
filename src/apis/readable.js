@@ -92,6 +92,15 @@ export const updateCommentVoteScore = (commentId, upVote) =>
     body: JSON.stringify(getUpdateVoteScorePayload(upVote))
   }).then(res => res.json())
 
+export const updateComment = (id, body) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+    },
+    body: JSON.stringify({ body })
+  }).then(res => res.json())
+
 export const deleteComment = (commentId) =>
   fetch(`${api}/comments/${commentId}`, {
     method: 'DELETE',
