@@ -40,11 +40,19 @@ export const post = ({
     }
   }
 
+  function selfDelete() {
+    return {
+      ...this,
+      deleted: true
+    }
+  }
+
   return {
     ...props(),
     props,
     create,
     updateCommentCount,
+    selfDelete,
   }
 }
 
@@ -86,10 +94,18 @@ export const comment = ({
     }
   }
 
+  function parentDelete() {
+    return {
+      ...this,
+      parentDeleted: true
+    }
+  }
+
   return {
     ...props(),
     create,
     selfDelete,
+    parentDelete,
   }
 }
 

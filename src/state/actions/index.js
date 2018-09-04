@@ -12,6 +12,7 @@ export const COMMENT_CREATE = 'COMMENT_CREATE'
 export const COMMENT_UPDATE_VOTE_SCORE = 'COMMENT_UPDATE_VOTE_SCORE'
 export const COMMENT_UPDATE = 'COMMENT_UPDATE'
 export const COMMENT_DELETE = 'COMMENT_DELETE'
+export const COMMENT_DELETE_PARENT_BATCH = 'COMMENT_DELETE_PARENT_BATCH'
 
 function fetchCategories(categories) {
   const payload = {}
@@ -107,6 +108,21 @@ const deleteCommentAction = ({ id, deleted }) => ({
   }
 })
 
+const deleteCommentParentBatchAction = (comments) => {
+  const payload = {}
+  comments.forEach(c => {
+    const { id, parentDeleted } = c
+    payload[c.id] = {
+      id,
+      parentDeleted
+    }
+  })
+  return {
+    type: COMMENT_DELETE_PARENT_BATCH,
+    comments: payload
+  }
+}
+
 export const fetchAll = () => dispatch => (
   Api.getCategories()
     .then(categories => dispatch(fetchCategories(categories)))
@@ -136,9 +152,12 @@ export const updatePostVoteScore = (post, upVote) => dispatch => (
     .catch(error => console.error(error))
 )
 
-export const deletePost = (post) => dispatch => (
+export const deletePost = (post, comments) => dispatch => (
   Api.deletePost(post)
-    .then(() => dispatch(deletePostAction(post)))
+    .then(() => {
+      comments && dispatch(deleteCommentParentBatchAction(comments))
+      dispatch(deletePostAction(post))
+    })
     .catch(error => console.error(error))
 )
 
