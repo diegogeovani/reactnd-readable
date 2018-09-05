@@ -14,23 +14,21 @@ export const COMMENT_UPDATE = 'COMMENT_UPDATE'
 export const COMMENT_DELETE = 'COMMENT_DELETE'
 export const COMMENT_DELETE_PARENT_BATCH = 'COMMENT_DELETE_PARENT_BATCH'
 
-function fetchCategories(categories) {
-  const payload = {}
-  categories.forEach(c => payload[c.name] = { name: c.name })
-  return {
-    type: CATEGORY_FETCH,
-    categories: payload
-  }
-}
+const fetchCategories = (categories) => ({
+  type: CATEGORY_FETCH,
+  categories: categories.reduce((accumulator, c) => {
+    accumulator[c.name] = { name: c.name }
+    return accumulator
+  }, {})
+})
 
-function fetchPosts(posts) {
-  const payload = {}
-  posts.forEach(p => payload[p.id] = { ...p })
-  return {
-    type: POST_FETCH,
-    posts: payload
-  }
-}
+const fetchPosts = (posts) => ({
+  type: POST_FETCH,
+  posts: posts.reduce((accumulator, p) => {
+    accumulator[p.id] = p
+    return accumulator
+  }, {})
+})
 
 const createPostAction = (post) => ({
   type: POST_CREATE,
@@ -62,14 +60,13 @@ const deletePostAction = ({ id, deleted }) => ({
   }
 })
 
-const fetchCommentsAction = (comments) => {
-  const payload = {}
-  comments.forEach(c => payload[c.id] = c)
-  return {
-    type: COMMENT_FETCH,
-    comments: payload
-  }
-}
+const fetchCommentsAction = (comments) => ({
+  type: COMMENT_FETCH,
+  comments: comments.reduce((accumulator, c) => {
+    accumulator[c.id] = c
+    return accumulator
+  }, {})
+})
 
 const createCommentAction = (comment) => ({
   type: COMMENT_CREATE,
@@ -108,20 +105,17 @@ const deleteCommentAction = ({ id, deleted }) => ({
   }
 })
 
-const deleteCommentParentBatchAction = (comments) => {
-  const payload = {}
-  comments.forEach(c => {
+const deleteCommentParentBatchAction = (comments) => ({
+  type: COMMENT_DELETE_PARENT_BATCH,
+  comments: comments.reduce((accumulator, c) => {
     const { id, parentDeleted } = c
-    payload[c.id] = {
+    accumulator[c.id] = {
       id,
-      parentDeleted
+      parentDeleted,
     }
-  })
-  return {
-    type: COMMENT_DELETE_PARENT_BATCH,
-    comments: payload
-  }
-}
+    return accumulator
+  }, {})
+})
 
 export const fetchAll = () => dispatch => (
   Api.getCategories()
