@@ -1,3 +1,5 @@
+import { goBack } from 'connected-react-router'
+
 import * as Api from '../../apis/readable'
 
 export const CATEGORY_FETCH = 'CATEGORY_FETCH'
@@ -130,13 +132,19 @@ export const fetchAll = () => dispatch => (
 
 export const createPost = (post) => dispatch => (
   Api.createPost(post)
-    .then(() => dispatch(createPostAction(post)))
+    .then(() => {
+      dispatch(createPostAction(post))
+      dispatch(goBack())
+    })
     .catch(error => console.error(error))
 )
 
 export const updatePost = (post) => dispatch => (
   Api.updatePost(post)
-    .then(() => dispatch(updatePostAction(post)))
+    .then(() => {
+      dispatch(updatePostAction(post))
+      dispatch(goBack())
+    })
     .catch(error => console.error(error))
 )
 
