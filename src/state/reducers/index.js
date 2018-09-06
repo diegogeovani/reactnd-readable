@@ -129,21 +129,15 @@ function comments(state = {}, action) {
       }
 
     case Action.COMMENT_DELETE_PARENT_BATCH:
-      const g1 = Object.values(state)
-        .filter(c => !action.comments[c.id])
-      const g2 = Object.values(state)
-        .filter(c => !!action.comments[c.id])
-        .map(d => ({
-          ...d,
-          ...action.comments[d.id]
-        }))
-      const g = g1.concat(g2)
-      const payload = {}
-      g.forEach(c => payload[c.id] = c)
-
       return {
         ...state,
-        ...payload
+        ...Object.values(action.comments).reduce((accumulator, c) => {
+          accumulator[c.id] = {
+            ...state[c.id],
+            ...c
+          }
+          return accumulator
+        }, {})
       }
 
     default:
