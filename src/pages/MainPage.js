@@ -23,7 +23,7 @@ class MainPage extends Component {
       <div>
         <header>
           <h1>Readable</h1>
-
+          <Link to="/posts">New post</Link>
           <Route render={({ history }) => (
             <CategoryDropdown
               category={this.props.category}
@@ -56,7 +56,6 @@ class MainPage extends Component {
               key={p.id}
               post={p} />
           )}
-          <Link to="/posts">+</Link>
         </main>
       </div>
     )
