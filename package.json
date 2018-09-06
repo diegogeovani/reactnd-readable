@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "connected-react-router": "^4.4.1",
     "form-serialize": "^0.7.2",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
