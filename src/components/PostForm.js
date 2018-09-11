@@ -45,13 +45,15 @@ class PostForm extends Component {
   onSubmit = (event) => {
     event.preventDefault()
     const post = this.state.data
-    console.log(post)
-    if (this.isEdition(this.props)) {
-      this.props.onSubmitEdition(post)
-    } else {
-      const postModel = Model.post().create(post);
-      console.log(postModel)
-      this.props.onSubmit(postModel)
+    if (post.category) {
+      console.log(post)
+      if (this.isEdition(this.props)) {
+        this.props.onSubmitEdition(post)
+      } else {
+        const postModel = Model.post().create(post);
+        console.log(postModel)
+        this.props.onSubmit(postModel)
+      }
     }
   }
 
@@ -69,7 +71,7 @@ class PostForm extends Component {
         <CategoryDropdown
           onSelect={this.onInput}
           category={post.category}
-          placeholder='Select a category' />
+          placeholder={this.isEdition(this.props) ? undefined : 'Select a category'} />
         <textarea placeholder="Body" name="body" value={post.body} onChange={this.onInput} />
         <button>Post</button>
       </form>
